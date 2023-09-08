@@ -1,0 +1,33 @@
+{
+  "name": "@sedap/vscode-ui",
+  "version": "0.0.1",
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "pnpm run clean && pnpm run compile",
+    "clean": "rimraf ./dist",
+    "compile": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "@sedap/types": "~0.0.1",
+    "@tippyjs/react": "^4.2.6",
+    "@vscode/webview-ui-toolkit": "^0.9.0",
+    "allotment": "^1.14.2",
+    "immer": "^9.0.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-error-boundary": "^3.1.4",
+    "react-flow-renderer": "^10.3.5",
+    "zustand": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.2",
+    "rimraf": "~5.0.0",
+    "typescript": "~4.9.0"
+  }
+}

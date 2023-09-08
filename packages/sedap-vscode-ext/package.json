@@ -1,0 +1,26 @@
+{
+  "name": "@sedap/vscode-ext",
+  "version": "0.0.1",
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "vscode": "^1.54.0"
+  },
+  "scripts": {
+    "build": "pnpm run clean && pnpm run compile",
+    "clean": "rimraf ./dist",
+    "compile": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "@sedap/types": "~0.0.1"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.54.0",
+    "rimraf": "~5.0.0",
+    "typescript": "~4.9.0"
+  }
+}

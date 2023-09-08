@@ -1,0 +1,59 @@
+import React, { ReactNode } from "react";
+import { UnificationState, UnifyKind, UnifyMap } from "@sedap/types";
+import { Store } from "./store";
+
+export const Code: React.FC = ({ children }) => (
+  <span className="code">{children}</span>
+);
+
+export const showUnifyKind = ([kind]: UnifyKind) => {
+  switch (kind) {
+    case "Postcondition":
+      return "post-condition";
+    case "FunctionCall":
+      return "function call";
+    case "LogicCommand":
+      return "logic command";
+    default:
+      return kind.toLowerCase();
+  }
+};
+
+export const getBaseUnification = ({ unifyState }: Store) => {
+  const { path, unifications } = unifyState;
+  const baseUnification = unifications[path[path.length - 1]];
+
+  return baseUnification;
+};
+
+export const showUnificationKind = (
+  unification: UnificationState | undefined
+) => {
+  if (!unification) {
+    return undefined;
+  }
+
+  return showUnifyKind((unification.map as UnifyMap)[0]);
+};
+
+export const showBaseUnifyKind = (store: Store) =>
+  showUnificationKind(getBaseUnification(store));
+
+export const getUnifyName = (store: Store): [ReactNode, ReactNode] => {
+  const { path, unifications } = store.unifyState;
+
+  if (path.length < 2) {
+    const kind = showBaseUnifyKind(store);
+    const procName = store.debuggerState?.mainProc || "unknown proc";
+
+    return [<Code>{procName}</Code>, <>Match {kind}</>];
+  }
+  const prevStep = unifications[path[1]!]!.selected!;
+
+  if (prevStep[0] !== "Assertion") {
+    throw new Error("getUnifyName error");
+  }
+  const { assertion } = prevStep[1];
+
+  return [<>Fold</>, <Code>{assertion}</Code>];
+};
